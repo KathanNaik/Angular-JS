@@ -1,0 +1,84 @@
+<!doctype html>
+<html ng-app="resultApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="results.js"></script>
+    <link rel="stylesheet" href="results.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Shippori+Antique+B1&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="title">
+      <h1>Result</h1>
+    </div>
+
+    <div id="container">
+      <div id="header">
+        <h3>Subjects</h3>
+      </div>
+      <div ng-controller="resultListController as resultList">
+        [ <a href="" ng-click="resultList.subdelete()">delete</a> ]
+        <ul class="unstyled">
+          <li ng-repeat="subject in resultList.subjects">
+            <label class="checkbox">
+              <input type="checkbox" ng-model="subject.done">
+              <span class="done-{{subject.done}}">{{subject.name}} / {{subject.marks}} </span>
+            </label>
+          </li>
+        </ul>
+        <form ng-submit="resultList.addsubject()">
+          <input class="put" type="text" ng-model="resultList.subjectText"  size="30" placeholder="add new subject here" required>
+          <input class="put" type="number" ng-model="resultList.subjectNumber" placeholder="add total marks here" required>
+          <input class="put btn" type="submit" value="add">
+        </form>
+      <div id="header">
+        <h3>Students</h3>
+        </div>
+          [ <a href="" ng-click="resultList.studelete()">delete</a> ]
+          <ul class="unstyled">
+            <li ng-repeat="student in resultList.students">
+              <label class="checkbox">
+                <input type="checkbox" ng-model="student.done">
+                <span class="done-{{student.done}}">{{student.number}}) {{student.name}}</span>
+              </label>
+            </li>
+          </ul>
+          <form ng-submit="resultList.addstudent()">
+            <input class="put" type="text" ng-model="resultList.studentText"  size="30" placeholder="add new student here" required>
+            <input class="put" type="number" ng-model="resultList.studentNumber" placeholder="add roll number here" required>
+            <input class="put btn" type="submit" value="add">
+          </form>
+          <div id="title">
+            <h2>Enter Marks Here</h2>
+          </div>
+              <ul class="unstyled">
+                <span ng-repeat="student in resultList.students">
+                  <span id="box">
+                    <span>{{student.number}}) {{student.name}} <br></br>
+                    <ul class="unstyled">
+                      <li ng-repeat="mark in student.marks">
+                        <span>{{mark.name}}: <input class="put" type="number" ng-model=mark.obtained placeholder="enter marks here" required> / {{mark.marks}}</span>
+                      </li>
+                    </ul> 
+                    </span>
+                  </span>
+                </span>
+              </ul> 
+              <input class="genarate" ng-click="resultList.makeresult()" type="submit" value="Genarate Result">  
+              <hr></hr>
+              <ul class="unstyled">
+                <li ng-repeat="student in resultList.students | orderBy: '-total'">
+                    <div>name : {{student.name}}</div>
+                    <div>roll number : {{student.number}}</div>
+                    <div>rank : {{student.rank}}</div>
+                    <div>marks : {{student.total}} / {{student.maxmark}}</div>
+                    <div>percentage : {{student.percentage}}%</div>
+                    <hr><hr>
+                </li>
+              </ul>    
+        </div>
+        </div>
+  </body>
+</html>
